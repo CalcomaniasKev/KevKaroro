@@ -3,8 +3,17 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Press Start 2P', 'Courier New', Courier, monospace;
-  background: #7ec0ee;
   overflow: hidden;
+
+  /* Fondo principal */
+  background-image: url('fondo1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  /* Animación */
+  animation: cambiarFondo 12s infinite alternate;
 }
 
 #form-container {
@@ -13,16 +22,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(126,192,238,0.95);
+  background: rgba(0,0,0,0.25);
   z-index: 2;
   padding: 1rem;
 }
 
 #name-form {
-  background: #222;
+  background: rgba(20,20,20,.75);
+  backdrop-filter: blur(12px);
   color: #fff;
   padding: 2rem 2.5rem;
-  border-radius: 12px;
+  border-radius: 18px;
   box-shadow: 0 4px 24px #0008;
   display: flex;
   flex-direction: column;
@@ -35,8 +45,8 @@ body {
 
 #name-input {
   font-size: 1.1rem;
-  padding: 0.5rem;
-  border-radius: 6px;
+  padding: 0.7rem;
+  border-radius: 8px;
   border: none;
   outline: none;
   font-family: inherit;
@@ -47,22 +57,23 @@ button {
   background: #ffb347;
   color: #222;
   border: none;
-  border-radius: 6px;
-  padding: 0.5rem 1.2rem;
+  border-radius: 10px;
+  padding: 0.7rem 1.2rem;
   cursor: pointer;
   font-family: inherit;
   font-weight: bold;
-  transition: background 0.2s;
+  transition: 0.3s;
 }
 
 button:hover {
   background: #ffcc80;
+  transform: scale(1.05);
 }
 
 #credits-form {
   text-align: center;
   font-size: 0.6rem;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.7);
   font-family: 'Courier New', monospace;
   margin-top: 0.5rem;
 }
@@ -70,10 +81,11 @@ button:hover {
 #sky-canvas {
   display: none;
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  background: #7ec0ee;
+  background: transparent;
   z-index: 1;
 }
 
@@ -88,64 +100,59 @@ button:hover {
   z-index: 20;
   pointer-events: none;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-  display: none; /* Oculto por defecto, se muestra solo durante la animación */
+  display: none;
 }
 
-/* Responsive para móviles */
-@media (max-width: 768px) {
-  #form-container {
-    padding: 0.5rem;
+/* Animación de cambio de fondo */
+@keyframes cambiarFondo {
+
+  0%{
+    background-image:url('fondo1.jpg');
   }
-  
-  #name-form {
-    padding: 1.5rem 2rem;
-    font-size: 0.9rem;
-    gap: 0.8rem;
+
+  50%{
+    background-image:url('fondo2.jpg');
   }
-  
-  #name-input {
-    font-size: 0.9rem;
-    padding: 0.4rem;
-  }
-  
-  button {
-    font-size: 0.9rem;
-    padding: 0.4rem 1rem;
-  }
-  
-  #credits-form {
-    font-size: 0.5rem;
-  }
-  
-  #credits {
-    font-size: 0.6rem;
-    bottom: 8px;
+
+  100%{
+    background-image:url('fondo1.jpg');
   }
 }
 
-@media (max-width: 480px) {
-  #name-form {
-    padding: 1.2rem 1.5rem;
-    font-size: 0.8rem;
-    gap: 0.6rem;
+/* Responsive */
+@media (max-width:768px){
+
+  #form-container{
+    padding:.5rem;
   }
-  
-  #name-input {
-    font-size: 0.8rem;
-    padding: 0.3rem;
+
+  #name-form{
+    padding:1.5rem 2rem;
+    font-size:.9rem;
+    gap:.8rem;
   }
-  
-  button {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.8rem;
+
+  #name-input{
+    font-size:.9rem;
   }
-  
-  #credits-form {
-    font-size: 0.4rem;
+
+  button{
+    font-size:.9rem;
   }
-  
-  #credits {
-    font-size: 0.5rem;
-    bottom: 6px;
+}
+
+@media (max-width:480px){
+
+  #name-form{
+    padding:1.2rem 1.5rem;
+    font-size:.8rem;
   }
-} 
+
+  #name-input{
+    font-size:.8rem;
+  }
+
+  button{
+    font-size:.8rem;
+  }
+}
