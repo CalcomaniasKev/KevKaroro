@@ -333,9 +333,12 @@ function quitarTildes(str) {
   }
   
   let bgImg = new window.Image();
-  bgImg.src = 'fondo1.jpg';
-  let bgLoaded = false;
-  bgImg.onload = () => { bgLoaded = true; };
+
+// Imagen desde GitHub Pages
+bgImg.src = 'https://calcomaniaskev.github.io/KevKaroro/fondo1.jpg';
+
+let bgLoaded = false;
+bgImg.onload = () => { bgLoaded = true; };
 
   function drawBackground() {
     if (bgLoaded) {
