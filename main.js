@@ -613,7 +613,7 @@ function quitarTildes(str) {
 
     function animar() {
       ctx.clearRect(0,0,canvas.width,canvas.height);
-      // Fondo imagen
+      // fondo1.jpg
       drawBackground();
       // Nubes
       updateClouds();
