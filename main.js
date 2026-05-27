@@ -333,7 +333,7 @@ function quitarTildes(str) {
   }
   
   let bgImg = new window.Image();
-  bgImg.src = 'assets/fondo1.jpg';
+  bgImg.src = 'fondo1.jpg';
   let bgLoaded = false;
   bgImg.onload = () => { bgLoaded = true; };
 
@@ -613,7 +613,7 @@ function quitarTildes(str) {
 
     function animar() {
       ctx.clearRect(0,0,canvas.width,canvas.height);
-      // fondo1.jpg
+      // Fondo imagen
       drawBackground();
       // Nubes
       updateClouds();
