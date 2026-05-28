@@ -22,7 +22,7 @@ function quitarTildes(str) {
     nombre = quitarTildes(nombre).toUpperCase();
     formContainer.style.display = 'none';
     canvas.style.display = 'block';
-    document.getElementById('credits').style.display = 'block'; // Mostrar créditos de animación
+    document.getElementById('credits').style.display = 'block'; 
     resizeCanvas();
     iniciarAnimacionBlockMensaje(nombre);
   });
@@ -34,13 +34,12 @@ function quitarTildes(str) {
     ctx.translate(x, y);
     ctx.rotate(angle);
     
-    // Hacer el avioncito más pequeño en móviles
     const isMobile = window.innerWidth <= 768;
     const isSmallMobile = window.innerWidth <= 480;
     let scale = 1;
     
     if (isSmallMobile) {
-      scale = 0.55; // Un toque más pequeño para dar espacio
+      scale = 0.55; 
     } else if (isMobile) {
       scale = 0.75; 
     }
@@ -48,13 +47,13 @@ function quitarTildes(str) {
     ctx.scale(scale, scale);
     
     ctx.fillStyle = '#e0e0e0';
-    ctx.fillRect(-19, -5, 38, 10); // cuerpo
+    ctx.fillRect(-19, -5, 38, 10); 
     ctx.fillStyle = '#b22222';
-    ctx.fillRect(14, -3, 11, 6); // nariz
+    ctx.fillRect(14, -3, 11, 6); 
     ctx.fillStyle = '#888';
-    ctx.fillRect(-22, -2, 6, 4); // cola
+    ctx.fillRect(-22, -2, 6, 4); 
     ctx.fillStyle = '#4682b4';
-    ctx.fillRect(-8, -8, 16, 6); // cabina
+    ctx.fillRect(-8, -8, 16, 6); 
     ctx.beginPath();
     ctx.arc(-2, -5, 3.2, 0, Math.PI * 2);
     ctx.fillStyle = '#fcd299';
@@ -87,7 +86,6 @@ function quitarTildes(str) {
     }
   }
   
-  // Paths tipo block para letras mayúsculas y corazón
   const blockLetters = {
     'A': [
       [[0,80],[14,0],[28,80]],
@@ -364,17 +362,17 @@ function quitarTildes(str) {
     let letraW, letraH, esp, espPalabra, corazonScale;
     
     if (isSmallMobile) {
-      letraW = 38 * 0.55; 
-      letraH = 80 * 0.55; 
-      esp = 20 * 0.55; 
-      espPalabra = 35 * 0.55; 
-      corazonScale = 0.7; 
+      letraW = 38 * 0.48;       // Escala ligeramente menor para dar espacio al margen
+      letraH = 80 * 0.48; 
+      esp = 22;                 // ¡AQUÍ ESTÁ EL TRUCO!: Espaciado fijo más amplio para que no se peguen
+      espPalabra = 35; 
+      corazonScale = 0.65; 
     } else if (isMobile) {
-      letraW = 38 * 0.7; 
-      letraH = 80 * 0.7; 
-      esp = 25 * 0.7; 
-      espPalabra = 40 * 0.7; 
-      corazonScale = 0.85; 
+      letraW = 38 * 0.65; 
+      letraH = 80 * 0.65; 
+      esp = 26;                 // Espaciado generoso para móviles medianos
+      espPalabra = 40; 
+      corazonScale = 0.8; 
     } else {
       letraW = 38 * 0.8;
       letraH = 80 * 0.8;
@@ -386,7 +384,7 @@ function quitarTildes(str) {
     let mensaje, segundaLinea;
     if (isMobile) {
       mensaje = 'HBD';
-      segundaLinea = nombre; // En celulares, segunda línea es el nombre completo
+      segundaLinea = nombre; 
     } else {
       mensaje = ('HBD ' + nombre).toUpperCase();
       segundaLinea = null;
@@ -405,7 +403,7 @@ function quitarTildes(str) {
         const segMaxX = Math.max(...seg.map(([px, _]) => px));
         if (segMaxX > maxX) maxX = segMaxX;
       }
-      return maxX * (isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8));
+      return maxX * (isSmallMobile ? 0.48 : (isMobile ? 0.65 : 0.8));
     }
     
     // --- LÍNEA 1: HBD ---
@@ -428,7 +426,7 @@ function quitarTildes(str) {
       }
       const letter = blockLetters[ch] || blockLetters[' '];
       for (const seg of letter) {
-        const segAbs = seg.map(([px, py]) => [x + px*(isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8)), y + py*(isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8))]);
+        const segAbs = seg.map(([px, py]) => [x + px*(isSmallMobile ? 0.48 : (isMobile ? 0.65 : 0.8)), y + py*(isSmallMobile ? 0.48 : (isMobile ? 0.65 : 0.8))]);
         paths.push(segAbs);
         letraIndices.push(i);
       }
@@ -447,7 +445,7 @@ function quitarTildes(str) {
       nombreWidth += (nombreLetterCount - 1) * esp;
       
       x = (canvas.width - nombreWidth) / 2; 
-      y = letraH + (isSmallMobile ? 35 : 45); // Espaciado vertical entre líneas
+      y = letraH + (isSmallMobile ? 45 : 55); 
       
       for (let i = 0; i < segundaLinea.length; i++) {
         const ch = segundaLinea[i];
@@ -457,7 +455,7 @@ function quitarTildes(str) {
         }
         const letter = blockLetters[ch] || blockLetters[' '];
         for (const seg of letter) {
-          const segAbs = seg.map(([px, py]) => [x + px*(isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8)), y + py*(isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8))]);
+          const segAbs = seg.map(([px, py]) => [x + px*(isSmallMobile ? 0.48 : (isMobile ? 0.65 : 0.8)), y + py*(isSmallMobile ? 0.48 : (isMobile ? 0.65 : 0.8))]);
           paths.push(segAbs);
           letraIndices.push(mensaje.length + i);
         }
@@ -465,19 +463,17 @@ function quitarTildes(str) {
       }
     }
     
-    // --- LÍNEA 3 (O CONTINUACIÓN PC): EL CORAZÓN COMPLETAMENTE CENTRADO ---
+    // --- LÍNEA 3: EL CORAZÓN ---
     let corazon;
     if (isMobile) {
-      // En móvil se va a una tercera línea abajo del nombre
       const corazonWidth = 64 * corazonScale;
       const corazonX = (canvas.width - corazonWidth) / 2;
-      const corazonY = y + letraH + (isSmallMobile ? 35 : 45);
+      const corazonY = y + letraH + (isSmallMobile ? 40 : 50);
       
       corazon = blockLetters['♥'][0].map(([px, py]) => [corazonX + px*corazonScale, corazonY + py*corazonScale]);
       paths.push(corazon);
       letraIndices.push(mensaje.length + segundaLinea.length + 1);
     } else {
-      // En computadora se queda al lado derecho normal
       const corazonWidth = 60 * corazonScale;
       const corazonXOffset = x + 15;
       corazon = blockLetters['♥'][0].map(([px, py]) => [corazonXOffset + px*corazonScale, py*corazonScale + (letraH - 80*corazonScale)/2]);
@@ -485,8 +481,8 @@ function quitarTildes(str) {
       letraIndices.push(mensaje.length + 1);
     }
 
-    const totalH = isMobile ? y + (letraH * 2) + 70 : letraH; 
-    const offsetY = canvas.height/2 - totalH/2 - (isMobile ? 20 : 0);
+    const totalH = isMobile ? y + (letraH * 2) + 80 : letraH; 
+    const offsetY = canvas.height/2 - totalH/2 - (isMobile ? 30 : 0);
 
     let pathIdx = 0, puntoIdx = 0, t = 0;
     let estado = 'dibuja';
@@ -600,10 +596,7 @@ function quitarTildes(str) {
     animar();
   }
   
-  // ======================================================================
-  // LÓGICA DE CONTROL PARA EL BOTÓN Y LA CARTA (FUERA DE LA ANIMACIÓN)
-  // ======================================================================
-  
+  // Control de clicks
   document.getElementById('btn-carta').addEventListener('click', function() {
     const modal = document.getElementById('modal-carta');
     if(modal) modal.style.display = 'flex';
