@@ -40,9 +40,9 @@ function quitarTildes(str) {
     let scale = 1;
     
     if (isSmallMobile) {
-      scale = 0.6; // Móvil pequeño - avioncito más pequeño
+      scale = 0.55; // Un toque más pequeño para dar espacio
     } else if (isMobile) {
-      scale = 0.75; // Móvil - avioncito mediano
+      scale = 0.75; 
     }
     
     ctx.scale(scale, scale);
@@ -71,17 +71,17 @@ function quitarTildes(str) {
   }
   
   function drawCloudSmoke(x, y) {
-    for (let i = 0; i < 5; i++) { // Reducido de 7 a 5
-      const dx = (Math.random() - 0.5) * 8; // Reducido de 10 a 8
+    for (let i = 0; i < 5; i++) { 
+      const dx = (Math.random() - 0.5) * 8; 
       const dy = (Math.random() - 0.5) * 8;
-      const r = 4 + Math.random() * 4; // Reducido de 5.5+5.5 a 4+4
+      const r = 4 + Math.random() * 4; 
       ctx.save();
-      ctx.globalAlpha = 0.15 + Math.random() * 0.2; // Reducido transparencia
+      ctx.globalAlpha = 0.15 + Math.random() * 0.2; 
       ctx.beginPath();
       ctx.arc(x + dx, y + dy, r, 0, Math.PI * 2);
       ctx.fillStyle = '#fff';
       ctx.shadowColor = '#e0e0e0';
-      ctx.shadowBlur = 6; // Reducido de 8 a 6
+      ctx.shadowBlur = 6; 
       ctx.fill();
       ctx.restore();
     }
@@ -236,7 +236,7 @@ function quitarTildes(str) {
       let y;
       do {
         y = 40 + Math.random() * (canvas.height-200);
-      } while (y > canvas.height/2-90 && y < canvas.height/2+90);
+      } while (y > canvas.height/2-130 && y < canvas.height/2+130);
       clouds.push({
         x: Math.random()*canvas.width,
         y,
@@ -357,36 +357,36 @@ function quitarTildes(str) {
   }
   
   function iniciarAnimacionBlockMensaje(nombre) {
-    initClouds(); // Inicializar nubes al empezar
+    initClouds(); 
     const isMobile = window.innerWidth <= 768;
     const isSmallMobile = window.innerWidth <= 480;
     
     let letraW, letraH, esp, espPalabra, corazonScale;
     
     if (isSmallMobile) {
-      letraW = 10*0.8; 
-      letraH = 20*0.8; 
-      esp = 55*0.8; 
-      espPalabra = 65*0.8; 
-      corazonScale = 0.6; 
-    } else if (isMobile) {
-      letraW = 14*0.8; 
-      letraH = 28*0.8; 
-      esp = 60*0.8; 
-      espPalabra = 70*0.8; 
+      letraW = 38 * 0.55; 
+      letraH = 80 * 0.55; 
+      esp = 20 * 0.55; 
+      espPalabra = 35 * 0.55; 
       corazonScale = 0.7; 
+    } else if (isMobile) {
+      letraW = 38 * 0.7; 
+      letraH = 80 * 0.7; 
+      esp = 25 * 0.7; 
+      espPalabra = 40 * 0.7; 
+      corazonScale = 0.85; 
     } else {
-      letraW = 38*0.8;
-      letraH = 80*0.8;
-      esp = 35*0.8;
-      espPalabra = 48*0.8;
+      letraW = 38 * 0.8;
+      letraH = 80 * 0.8;
+      esp = 35 * 0.8;
+      espPalabra = 48 * 0.8;
       corazonScale = 1.1;
     }
     
     let mensaje, segundaLinea;
     if (isMobile) {
       mensaje = 'HBD';
-      segundaLinea = nombre;
+      segundaLinea = nombre; // En celulares, segunda línea es el nombre completo
     } else {
       mensaje = ('HBD ' + nombre).toUpperCase();
       segundaLinea = null;
@@ -396,7 +396,6 @@ function quitarTildes(str) {
     let letraIndices = [];
     let x = 0;
     let y = 0; 
-    let maxY = 0, minY = Infinity;
     
     function getLetterWidth(ch) {
       if (ch === ' ') return espPalabra;
@@ -406,52 +405,20 @@ function quitarTildes(str) {
         const segMaxX = Math.max(...seg.map(([px, _]) => px));
         if (segMaxX > maxX) maxX = segMaxX;
       }
-      return maxX * 0.8;
+      return maxX * (isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8));
     }
     
-    let totalWidth = 0;
-    let letterCount = 0;
-    
+    // --- LÍNEA 1: HBD ---
+    let hbdWidth = 0;
+    let hbdLetterCount = 0;
     for (let i = 0; i < mensaje.length; i++) {
       const ch = mensaje[i];
-      if (ch === ' ') {
-        totalWidth += espPalabra;
-        continue;
-      }
-      totalWidth += getLetterWidth(ch);
-      letterCount++;
+      hbdWidth += getLetterWidth(ch);
+      hbdLetterCount++;
     }
+    hbdWidth += (hbdLetterCount - 1) * esp;
     
-    totalWidth += (letterCount - 1) * esp;
-    const corazonWidth = 60 * corazonScale; 
-    totalWidth += 15 + corazonWidth; 
-    
-    if (segundaLinea) {
-      let segundaLineaWidth = 0;
-      let segundaLineaLetterCount = 0;
-      for (let i = 0; i < segundaLinea.length; i++) {
-        const ch = segundaLinea[i];
-        segundaLineaWidth += getLetterWidth(ch);
-        segundaLineaLetterCount++;
-      }
-      segundaLineaWidth += (segundaLineaLetterCount - 1) * esp;
-      segundaLineaWidth += 15 + corazonWidth;
-      totalWidth = Math.max(totalWidth, segundaLineaWidth);
-    }
-    
-    x = (canvas.width - totalWidth) / 2;
-    
-    if (isMobile) {
-      let hbdWidth = 0;
-      let hbdLetterCount = 0;
-      for (let i = 0; i < mensaje.length; i++) {
-        const ch = mensaje[i];
-        hbdWidth += getLetterWidth(ch);
-        hbdLetterCount++;
-      }
-      hbdWidth += (hbdLetterCount - 1) * esp;
-      x = (canvas.width - hbdWidth) / 2; 
-    }
+    x = (canvas.width - hbdWidth) / 2;
     
     for (let i = 0; i < mensaje.length; i++) {
       const ch = mensaje[i];
@@ -461,17 +428,14 @@ function quitarTildes(str) {
       }
       const letter = blockLetters[ch] || blockLetters[' '];
       for (const seg of letter) {
-        const segAbs = seg.map(([px, py]) => [x + px*0.8, y + py*0.8]);
+        const segAbs = seg.map(([px, py]) => [x + px*(isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8)), y + py*(isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8))]);
         paths.push(segAbs);
         letraIndices.push(i);
-        for (const [_, py] of seg) {
-          if (py > maxY) maxY = py;
-          if (py < minY) minY = py;
-        }
       }
-      x += letraW + esp;
+      x += getLetterWidth(ch) + esp;
     }
     
+    // --- LÍNEA 2: NOMBRE (KEVIN) ---
     if (segundaLinea) {
       let nombreWidth = 0;
       let nombreLetterCount = 0;
@@ -481,41 +445,54 @@ function quitarTildes(str) {
         nombreLetterCount++;
       }
       nombreWidth += (nombreLetterCount - 1) * esp;
-      nombreWidth += 15 + corazonWidth;
+      
       x = (canvas.width - nombreWidth) / 2; 
-      y = letraH + 80; 
+      y = letraH + (isSmallMobile ? 35 : 45); // Espaciado vertical entre líneas
       
       for (let i = 0; i < segundaLinea.length; i++) {
         const ch = segundaLinea[i];
+        if (ch === ' ') {
+          x += espPalabra;
+          continue;
+        }
         const letter = blockLetters[ch] || blockLetters[' '];
         for (const seg of letter) {
-          const segAbs = seg.map(([px, py]) => [x + px*0.8, y + py*0.8]);
+          const segAbs = seg.map(([px, py]) => [x + px*(isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8)), y + py*(isSmallMobile ? 0.55 : (isMobile ? 0.7 : 0.8))]);
           paths.push(segAbs);
           letraIndices.push(mensaje.length + i);
-          for (const [_, py] of seg) {
-            if (y + py > maxY) maxY = y + py;
-            if (y + py < minY) minY = y + py;
-          }
         }
-        x += letraW + esp;
+        x += getLetterWidth(ch) + esp;
       }
     }
     
-    const corazonYOffset = (letraH - 80*corazonScale) / 2;
-    const corazonXOffset = x + 15;
-    const corazonY = segundaLinea ? y + 25 : 0;
-    const corazon = blockLetters['♥'][0].map(([px, py]) => [corazonXOffset + px*corazonScale, corazonY + py*corazonScale + corazonYOffset]);
-    paths.push(corazon);
-    letraIndices.push(mensaje.length + (segundaLinea ? segundaLinea.length : 0));
+    // --- LÍNEA 3 (O CONTINUACIÓN PC): EL CORAZÓN COMPLETAMENTE CENTRADO ---
+    let corazon;
+    if (isMobile) {
+      // En móvil se va a una tercera línea abajo del nombre
+      const corazonWidth = 64 * corazonScale;
+      const corazonX = (canvas.width - corazonWidth) / 2;
+      const corazonY = y + letraH + (isSmallMobile ? 35 : 45);
+      
+      corazon = blockLetters['♥'][0].map(([px, py]) => [corazonX + px*corazonScale, corazonY + py*corazonScale]);
+      paths.push(corazon);
+      letraIndices.push(mensaje.length + segundaLinea.length + 1);
+    } else {
+      // En computadora se queda al lado derecho normal
+      const corazonWidth = 60 * corazonScale;
+      const corazonXOffset = x + 15;
+      corazon = blockLetters['♥'][0].map(([px, py]) => [corazonXOffset + px*corazonScale, py*corazonScale + (letraH - 80*corazonScale)/2]);
+      paths.push(corazon);
+      letraIndices.push(mensaje.length + 1);
+    }
 
-    const totalH = segundaLinea ? y + letraH + 80 : letraH; 
-    const offsetY = canvas.height/2 - totalH/2;
+    const totalH = isMobile ? y + (letraH * 2) + 70 : letraH; 
+    const offsetY = canvas.height/2 - totalH/2 - (isMobile ? 20 : 0);
 
     let pathIdx = 0, puntoIdx = 0, t = 0;
     let estado = 'dibuja';
     let lastPoint = null, moveFrom = null, moveTo = null;
     let drawnSmoke = [];
-    let pausaFrames = isMobile ? 15 : 20;
+    let pausaFrames = isMobile ? 12 : 20;
     let showFireworks = false;
     let fireworkTimer = 0;
 
@@ -557,7 +534,7 @@ function quitarTildes(str) {
       if(estado==='dibuja') {
         const dx = end[0]-start[0], dy = end[1]-start[1];
         const dist = Math.sqrt(dx*dx+dy*dy);
-        const speed = isMobile ? 5.5 : 4.5;
+        const speed = isMobile ? 6.5 : 4.5;
         t += speed/dist;
         px = start[0] + (end[0]-start[0])*t;
         py = offsetY + start[1] + (end[1]-start[1])*t;
@@ -593,7 +570,7 @@ function quitarTildes(str) {
         drawPlane(px, py, angle);
         pausaFrames--;
         if(pausaFrames<=0) {
-          pausaFrames = isMobile ? 15 : 20;
+          pausaFrames = isMobile ? 12 : 20;
           estado='mueve';
           if(pathIdx<paths.length) {
             moveFrom = [lastPoint[0], offsetY + lastPoint[1]];
@@ -606,7 +583,7 @@ function quitarTildes(str) {
         const to = moveTo;
         const dx = to[0]-from[0], dy = to[1]-from[1];
         const dist = Math.sqrt(dx*dx+dy*dy);
-        const speed = isMobile ? 7.0 : 6.0;
+        const speed = isMobile ? 8.5 : 6.0;
         t += speed/dist;
         px = from[0] + (to[0]-from[0])*t;
         py = from[1] + (to[1]-from[1])*t;
