@@ -187,19 +187,18 @@ function quitarTildes(str) {
     ],
     ' ': [],
     '♥': [
-      // Corazón clásico, simétrico, siguiendo la referencia
       [
-        [32,80], // punta inferior
-        [8,56],  // curva izquierda baja
-        [4,36],  // curva izquierda media
-        [12,20], // lóbulo izquierdo
-        [28,16], // parte superior izquierda
-        [32,24], // centro superior
-        [36,16], // parte superior derecha
-        [52,20], // lóbulo derecho
-        [60,36], // curva derecha media
-        [56,56], // curva derecha baja
-        [32,80]  // cerrar
+        [32,80], 
+        [8,56],  
+        [4,36],  
+        [12,20], 
+        [28,16], 
+        [32,24], 
+        [36,16], 
+        [52,20], 
+        [60,36], 
+        [56,56], 
+        [32,80]  
       ]
     ]
   };
@@ -210,7 +209,6 @@ function quitarTildes(str) {
   
   // --- Nubes pixel art y skyline ---
   const cloudSprites = [
-    // Cada nube es una matriz de píxeles (1=blanco, 0=transparente)
     [
       [0,1,1,1,0],
       [1,1,1,1,1],
@@ -235,7 +233,6 @@ function quitarTildes(str) {
     clouds = [];
     const n = 7;
     for(let i=0;i<n;i++){
-      // Evitar la franja central del mensaje
       let y;
       do {
         y = 40 + Math.random() * (canvas.height-200);
@@ -274,97 +271,32 @@ function quitarTildes(str) {
     }
   }
   
-  // Skyline pixel art (siluetas de edificios)
-  function drawSkyline() {
-    const baseY = canvas.height-60;
-    // Edificios principales (x, ancho, alto, color)
-    const buildings = [
-      // Empire State
-      {x:40,w:22,h:90,c:'#b0b8c1'},
-      // One World Trade
-      {x:120,w:18,h:110,c:'#a0a8b8'},
-      // Chrysler
-      {x:200,w:16,h:70,c:'#b8b8c8'},
-      // Edificio genérico
-      {x:70,w:18,h:60,c:'#a8b0b8'},
-      // Edificio genérico
-      {x:170,w:14,h:50,c:'#b0b0b0'},
-      // Estatua de la Libertad
-      {x:260,w:10,h:40,c:'#7ec0b8'},
-      // Puente de Brooklyn (simplificado)
-      {x:300,w:60,h:20,c:'#b89c7c'},
-      // Más edificios
-      {x:370,w:18,h:60,c:'#b0b8c1'},
-      {x:400,w:14,h:40,c:'#a0a8b8'},
-      {x:430,w:22,h:80,c:'#b8b8c8'}
-    ];
-    // Fondo base
-    ctx.save();
-    ctx.fillStyle = '#6a7ba2';
-    ctx.fillRect(0,baseY,canvas.width,60);
-    // Edificios
-    for(const b of buildings){
-      ctx.fillStyle = b.c;
-      ctx.fillRect(b.x, baseY-b.h, b.w, b.h);
-      // Detalles Empire State
-      if(b.h>80){
-        ctx.fillStyle = '#e0e0e0';
-        ctx.fillRect(b.x+b.w/2-2, baseY-b.h-12, 4, 12);
-      }
-      // Estatua de la Libertad
-      if(b.h===40 && b.w===10){
-        ctx.fillStyle = '#b2dfdb';
-        ctx.fillRect(b.x+3, baseY-b.h-10, 4, 10);
-        ctx.beginPath();
-        ctx.arc(b.x+5, baseY-b.h-12, 3, 0, Math.PI*2);
-        ctx.fill();
-      }
-      // Puente de Brooklyn
-      if(b.h===20 && b.w===60){
-        ctx.fillStyle = '#b89c7c';
-        ctx.fillRect(b.x+10, baseY-10, 40, 4);
-        ctx.fillRect(b.x+10, baseY-6, 40, 4);
-        ctx.fillStyle = '#a67c52';
-        ctx.fillRect(b.x, baseY-20, 6, 20);
-        ctx.fillRect(b.x+54, baseY-20, 6, 20);
-      }
-    }
-    ctx.restore();
-  }
-  
   let bgImg = new window.Image();
-
-// Imagen desde GitHub Pages
-bgImg.src = 'https://calcomaniaskev.github.io/KevKaroro/fondo1.jpg';
-
-let bgLoaded = false;
-bgImg.onload = () => { bgLoaded = true; };
-
+  bgImg.src = 'https://calcomaniaskev.github.io/KevKaroro/fondo1.jpg';
+  let bgLoaded = false;
+  bgImg.onload = () => { bgLoaded = true; };
+  
   function drawBackground() {
     if (bgLoaded) {
-      // En móviles: usar todo el alto de la imagen sin zoom, en desktop: cover normal
       const isMobile = window.innerWidth <= 768;
       let iw = bgImg.width, ih = bgImg.height, cw = canvas.width, ch = canvas.height;
       let scale, nw, nh, nx, ny;
       
       if (isMobile) {
-        // Usar todo el alto de la imagen sin zoom
-        scale = ch / ih; // Escalar por altura para usar todo el alto
+        scale = ch / ih; 
         nw = iw * scale;
         nh = ih * scale;
-        nx = (cw - nw) / 2; // Centrar horizontalmente
-        ny = 0; // Alinear al tope
+        nx = (cw - nw) / 2; 
+        ny = 0; 
         
-        // Si el ancho es menor que la pantalla, ajustar para cubrir completamente
         if (nw < cw) {
           scale = cw / iw;
           nw = iw * scale;
           nh = ih * scale;
           nx = 0;
-          ny = (ch - nh) / 2; // Centrar verticalmente
+          ny = (ch - nh) / 2; 
         }
       } else {
-        // Cover: cubrir toda la pantalla (desktop)
         scale = Math.max(cw/iw, ch/ih);
         nw = iw*scale, nh = ih*scale;
         nx = (cw-nw)/2, ny = (ch-nh)/2;
@@ -376,7 +308,7 @@ bgImg.onload = () => { bgLoaded = true; };
       ctx.fillRect(0,0,canvas.width,canvas.height);
     }
   }
-
+  
   // --- Fuegos artificiales pixel art ---
   let fireworks = [];
   function launchFirework() {
@@ -425,28 +357,25 @@ bgImg.onload = () => { bgLoaded = true; };
   }
   
   function iniciarAnimacionBlockMensaje(nombre) {
-    // Parámetros de tamaño responsivos
+    initClouds(); // Inicializar nubes al empezar
     const isMobile = window.innerWidth <= 768;
     const isSmallMobile = window.innerWidth <= 480;
     
     let letraW, letraH, esp, espPalabra, corazonScale;
     
     if (isSmallMobile) {
-      // Móvil pequeño - letras mucho más pequeñas y separadas
-      letraW = 10*0.8; // Reducido de 12 a 10
-      letraH = 20*0.8; // Reducido de 24 a 20
-      esp = 55*0.8; // Más espacio entre letras (aumentado de 45 a 55)
-      espPalabra = 65*0.8; // Más espacio entre palabras
-      corazonScale = 0.6; // Corazón más grande (aumentado de 0.4 a 0.6)
+      letraW = 10*0.8; 
+      letraH = 20*0.8; 
+      esp = 55*0.8; 
+      espPalabra = 65*0.8; 
+      corazonScale = 0.6; 
     } else if (isMobile) {
-      // Móvil - letras más pequeñas y separadas
-      letraW = 14*0.8; // Reducido de 16 a 14
-      letraH = 28*0.8; // Reducido de 32 a 28
-      esp = 60*0.8; // Más espacio entre letras (aumentado de 50 a 60)
-      espPalabra = 70*0.8; // Más espacio entre palabras
-      corazonScale = 0.7; // Corazón más grande (aumentado de 0.5 a 0.7)
+      letraW = 14*0.8; 
+      letraH = 28*0.8; 
+      esp = 60*0.8; 
+      espPalabra = 70*0.8; 
+      corazonScale = 0.7; 
     } else {
-      // Desktop - NO TOCAR
       letraW = 38*0.8;
       letraH = 80*0.8;
       esp = 35*0.8;
@@ -454,26 +383,21 @@ bgImg.onload = () => { bgLoaded = true; };
       corazonScale = 1.1;
     }
     
-    // Construir mensaje según el dispositivo
     let mensaje, segundaLinea;
     if (isMobile) {
-      // En móviles: "HBD" centrado en primera línea, nombre en segunda línea
       mensaje = 'HBD';
       segundaLinea = nombre;
     } else {
-      // En desktop: todo en una línea
       mensaje = ('HBD ' + nombre).toUpperCase();
       segundaLinea = null;
     }
     
-    // Construir paths para el mensaje y asociar cada segmento a su letra
     let paths = [];
     let letraIndices = [];
     let x = 0;
-    let y = 0; // Para manejar múltiples líneas
+    let y = 0; 
     let maxY = 0, minY = Infinity;
     
-    // Función para calcular el ancho real de una letra
     function getLetterWidth(ch) {
       if (ch === ' ') return espPalabra;
       const letter = blockLetters[ch] || blockLetters[' '];
@@ -485,11 +409,9 @@ bgImg.onload = () => { bgLoaded = true; };
       return maxX * 0.8;
     }
     
-    // Calcular el ancho total del mensaje completo para centrarlo
     let totalWidth = 0;
     let letterCount = 0;
     
-    // Calcular ancho de la primera línea (HBD + espacio + nombre)
     for (let i = 0; i < mensaje.length; i++) {
       const ch = mensaje[i];
       if (ch === ' ') {
@@ -500,14 +422,10 @@ bgImg.onload = () => { bgLoaded = true; };
       letterCount++;
     }
     
-    // Añadir espaciado entre letras
     totalWidth += (letterCount - 1) * esp;
+    const corazonWidth = 60 * corazonScale; 
+    totalWidth += 15 + corazonWidth; 
     
-    // Añadir espacio para el corazón al final
-    const corazonWidth = 60 * corazonScale; // Ancho aproximado del corazón
-    totalWidth += 15 + corazonWidth; // 15px de espacio + ancho del corazón
-    
-    // Calcular ancho de la segunda línea si existe (solo móvil)
     if (segundaLinea) {
       let segundaLineaWidth = 0;
       let segundaLineaLetterCount = 0;
@@ -516,20 +434,14 @@ bgImg.onload = () => { bgLoaded = true; };
         segundaLineaWidth += getLetterWidth(ch);
         segundaLineaLetterCount++;
       }
-      // Añadir espaciado entre letras
       segundaLineaWidth += (segundaLineaLetterCount - 1) * esp;
-      // Añadir espacio para el corazón en la segunda línea también
       segundaLineaWidth += 15 + corazonWidth;
-      // Usar el ancho más grande de las dos líneas
       totalWidth = Math.max(totalWidth, segundaLineaWidth);
     }
     
-    // Centrar el mensaje completo
     x = (canvas.width - totalWidth) / 2;
     
-    // Primera línea (HBD) - centrada
     if (isMobile) {
-      // En móvil, centrar solo HBD
       let hbdWidth = 0;
       let hbdLetterCount = 0;
       for (let i = 0; i < mensaje.length; i++) {
@@ -538,7 +450,7 @@ bgImg.onload = () => { bgLoaded = true; };
         hbdLetterCount++;
       }
       hbdWidth += (hbdLetterCount - 1) * esp;
-      x = (canvas.width - hbdWidth) / 2; // Centrar HBD
+      x = (canvas.width - hbdWidth) / 2; 
     }
     
     for (let i = 0; i < mensaje.length; i++) {
@@ -560,9 +472,7 @@ bgImg.onload = () => { bgLoaded = true; };
       x += letraW + esp;
     }
     
-    // Segunda línea (nombre) - solo en móviles, centrada independientemente
     if (segundaLinea) {
-      // Calcular el ancho total del nombre + corazón para centrarlo independientemente
       let nombreWidth = 0;
       let nombreLetterCount = 0;
       for (let i = 0; i < segundaLinea.length; i++) {
@@ -570,12 +480,10 @@ bgImg.onload = () => { bgLoaded = true; };
         nombreWidth += getLetterWidth(ch);
         nombreLetterCount++;
       }
-      // Añadir espaciado entre letras
       nombreWidth += (nombreLetterCount - 1) * esp;
-      // Añadir espacio para el corazón
       nombreWidth += 15 + corazonWidth;
-      x = (canvas.width - nombreWidth) / 2; // Centrar el nombre + corazón independientemente
-      y = letraH + 80; // Más espacio entre líneas
+      x = (canvas.width - nombreWidth) / 2; 
+      y = letraH + 80; 
       
       for (let i = 0; i < segundaLinea.length; i++) {
         const ch = segundaLinea[i];
@@ -593,7 +501,6 @@ bgImg.onload = () => { bgLoaded = true; };
       }
     }
     
-    // Añadir corazón al final
     const corazonYOffset = (letraH - 80*corazonScale) / 2;
     const corazonXOffset = x + 15;
     const corazonY = segundaLinea ? y + 25 : 0;
@@ -601,11 +508,9 @@ bgImg.onload = () => { bgLoaded = true; };
     paths.push(corazon);
     letraIndices.push(mensaje.length + (segundaLinea ? segundaLinea.length : 0));
 
-    // Centrado vertical
-    const totalH = segundaLinea ? y + letraH + 80 : letraH; // Más espacio para el total
+    const totalH = segundaLinea ? y + letraH + 80 : letraH; 
     const offsetY = canvas.height/2 - totalH/2;
 
-    // Animación
     let pathIdx = 0, puntoIdx = 0, t = 0;
     let estado = 'dibuja';
     let lastPoint = null, moveFrom = null, moveTo = null;
@@ -616,53 +521,52 @@ bgImg.onload = () => { bgLoaded = true; };
 
     function animar() {
       ctx.clearRect(0,0,canvas.width,canvas.height);
-      // Fondo imagen
       drawBackground();
-      // Nubes
       updateClouds();
       for(const cloud of clouds) drawCloudSprite(cloud);
-      // Fuegos artificiales
+      
       if(showFireworks){
         updateFireworks();
         drawFireworks();
         if(fireworkTimer%20===0 && fireworkTimer<100) launchFirework();
         fireworkTimer++;
       }
-      // Dibuja humo ya trazado
+      
       for(const dot of drawnSmoke) drawCloudSmoke(dot[0], dot[1]);
-      // Si terminó todo (Letras + Corazón dibujados)
+      
       if(pathIdx >= paths.length && !showFireworks) {
         showFireworks = true;
         fireworkTimer = 0;
         
-        // --- CÓDIGO NUEVO: MOSTRAR BOTÓN AL TERMINAR ---
         setTimeout(() => {
           const btnCarta = document.getElementById('btn-carta');
           if (btnCarta) btnCarta.classList.add('visible');
-        }, 1500); // Aparece 1.5 segundos después de que termina el corazón
+        }, 1500); 
       }
-      if(pathIdx >= paths.length) return;
+      
+      if(pathIdx >= paths.length) {
+        requestAnimationFrame(animar);
+        return;
+      }
+      
       const seg = paths[pathIdx];
       const start = seg[puntoIdx];
       const end = seg[puntoIdx+1];
       let px, py, angle;
+      
       if(estado==='dibuja') {
-        // Velocidad uniforme: avanzar por distancia, no por t fijo
         const dx = end[0]-start[0], dy = end[1]-start[1];
         const dist = Math.sqrt(dx*dx+dy*dy);
         const speed = isMobile ? 5.5 : 4.5;
         t += speed/dist;
         px = start[0] + (end[0]-start[0])*t;
         py = offsetY + start[1] + (end[1]-start[1])*t;
-        angle = getAngle(
-          start[0],
-          offsetY + start[1],
-          end[0],
-          offsetY + end[1]
-        );
+        angle = getAngle(start[0], offsetY + start[1], end[0], offsetY + end[1]);
+        
         drawPlane(px, py, angle);
         drawCloudSmoke(px, py);
         drawnSmoke.push([px, py]);
+        
         if(t>=1) {
           t=0;
           puntoIdx++;
@@ -675,7 +579,6 @@ bgImg.onload = () => { bgLoaded = true; };
             if(nextLetter !== prevLetter) {
               estado='pausa';
             } else {
-              // Movimiento directo al siguiente segmento de la misma letra
               estado='mueve';
               moveFrom = [lastPoint[0], offsetY + lastPoint[1]];
               moveTo = [paths[pathIdx][0][0], offsetY + paths[pathIdx][0][1]];
@@ -712,24 +615,24 @@ bgImg.onload = () => { bgLoaded = true; };
         if(t>=1) {
           t=0;
           estado='dibuja';
-            
-     // ... Todo tu código de la animación que ya tenías arriba ...
-
-    requestAnimationFrame(animar);
+        }
+      }
+      
+      requestAnimationFrame(animar);
+    }
+    animar();
   }
-  animar();
-} // <-- Esta llave cierra la función grande "iniciarAnimacionBlockMensaje". Es vital que esté ahí.
-
-// ======================================================================
-// ESTO TIENE QUE ESTAR AQUÍ AFUERA, HASTA EL PURO FINAL DE TU ARCHIVO
-// ======================================================================
-
-document.getElementById('btn-carta').addEventListener('click', function() {
-  const modal = document.getElementById('modal-carta');
-  modal.style.display = 'flex';
-});
-
-document.getElementById('btn-cerrar-modal').addEventListener('click', function() {
-  const modal = document.getElementById('modal-carta');
-  modal.style.display = 'none';
-});
+  
+  // ======================================================================
+  // LÓGICA DE CONTROL PARA EL BOTÓN Y LA CARTA (FUERA DE LA ANIMACIÓN)
+  // ======================================================================
+  
+  document.getElementById('btn-carta').addEventListener('click', function() {
+    const modal = document.getElementById('modal-carta');
+    if(modal) modal.style.display = 'flex';
+  });
+  
+  document.getElementById('btn-cerrar-modal').addEventListener('click', function() {
+    const modal = document.getElementById('modal-carta');
+    if(modal) modal.style.display = 'none';
+  });
