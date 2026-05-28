@@ -713,15 +713,17 @@ bgImg.onload = () => { bgLoaded = true; };
           t=0;
           estado='dibuja';
             
-     // ... (todo tu código actual igualito)
-        }
-      }
-      requestAnimationFrame(animar);
-    }
-    animar();
-  } // <-- Aquí terminaba tu código antes
+     // ... Todo tu código de la animación que ya tenías arriba ...
 
-// --- Lógica para abrir la carta de Karol ---
+    requestAnimationFrame(animar);
+  }
+  animar();
+} // <-- Esta llave cierra la función grande "iniciarAnimacionBlockMensaje". Es vital que esté ahí.
+
+// ======================================================================
+// ESTO TIENE QUE ESTAR AQUÍ AFUERA, HASTA EL PURO FINAL DE TU ARCHIVO
+// ======================================================================
+
 document.getElementById('btn-carta').addEventListener('click', function() {
   const modal = document.getElementById('modal-carta');
   modal.style.display = 'flex';
@@ -731,4 +733,3 @@ document.getElementById('btn-cerrar-modal').addEventListener('click', function()
   const modal = document.getElementById('modal-carta');
   modal.style.display = 'none';
 });
-  
