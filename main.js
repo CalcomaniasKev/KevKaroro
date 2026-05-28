@@ -630,10 +630,16 @@ bgImg.onload = () => { bgLoaded = true; };
       }
       // Dibuja humo ya trazado
       for(const dot of drawnSmoke) drawCloudSmoke(dot[0], dot[1]);
-      // Si terminó todo
+      // Si terminó todo (Letras + Corazón dibujados)
       if(pathIdx >= paths.length && !showFireworks) {
         showFireworks = true;
         fireworkTimer = 0;
+        
+        // --- CÓDIGO NUEVO: MOSTRAR BOTÓN AL TERMINAR ---
+        setTimeout(() => {
+          const btnCarta = document.getElementById('btn-carta');
+          if (btnCarta) btnCarta.classList.add('visible');
+        }, 1500); // Aparece 1.5 segundos después de que termina el corazón
       }
       if(pathIdx >= paths.length) return;
       const seg = paths[pathIdx];
@@ -706,10 +712,23 @@ bgImg.onload = () => { bgLoaded = true; };
         if(t>=1) {
           t=0;
           estado='dibuja';
+            
+     // ... (todo tu código actual igualito)
         }
       }
       requestAnimationFrame(animar);
     }
     animar();
-  }
+  } // <-- Aquí terminaba tu código antes
+
+// --- Lógica para abrir la carta de Karol ---
+document.getElementById('btn-carta').addEventListener('click', function() {
+  const modal = document.getElementById('modal-carta');
+  modal.style.display = 'flex';
+});
+
+document.getElementById('btn-cerrar-modal').addEventListener('click', function() {
+  const modal = document.getElementById('modal-carta');
+  modal.style.display = 'none';
+});
   
